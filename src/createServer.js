@@ -2,6 +2,7 @@
 
 const express = require('express');
 const userController = require('./controller/user.controller.js');
+const categoryController = require('./controller/categoty.controller.js');
 const { Expense } = require('./models/Expense.model.js');
 const { User } = require('./models/User.model.js');
 // const { Category } = require('./models/Category.model.js');
@@ -159,6 +160,20 @@ const createServer = () => {
 
     return res.status(201).json(result);
   });
+
+  // #endregion
+
+  // #region category
+
+  app.get('/category', categoryController.get);
+
+  app.get('/category/:id', categoryController.getOne);
+
+  app.delete('/category/:id', categoryController.remove);
+
+  app.patch('/category/:id', categoryController.edit);
+
+  app.post('/category', categoryController.create);
 
   // #endregion
 
