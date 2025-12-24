@@ -4,7 +4,7 @@ const { DataTypes } = require('sequelize');
 const { sequelize } = require('../db.js');
 
 const Expense = sequelize.define(
-  'Expenses',
+  'Expense',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -29,8 +29,8 @@ const Expense = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    category: {
-      type: DataTypes.STRING,
+    categoryId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
     note: {

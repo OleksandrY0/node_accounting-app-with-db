@@ -4,6 +4,7 @@ const express = require('express');
 const userController = require('./controller/user.controller.js');
 const { Expense } = require('./models/Expense.model.js');
 const { User } = require('./models/User.model.js');
+// const { Category } = require('./models/Category.model.js');
 
 const createServer = () => {
   const app = express();
@@ -27,7 +28,7 @@ const createServer = () => {
   // #region expense
 
   app.get('/expenses', async (req, res) => {
-    const { userId, category } = req.query;
+    const { userId, categoryId } = req.query;
 
     const where = {};
 
@@ -35,8 +36,8 @@ const createServer = () => {
       where.userId = userId;
     }
 
-    if (category) {
-      where.category = category;
+    if (categoryId) {
+      where.categoryId = categoryId;
     }
 
     const expenses = await Expense.findAll({
@@ -91,7 +92,7 @@ const createServer = () => {
 
   app.patch('/expenses/:id', async (req, res) => {
     const { id } = req.params;
-    const { spentAt, title, amount, category, note } = req.body;
+    const { spentAt, title, amount, categoryId, note } = req.body;
 
     if (!id) {
       return res.status(400).end();
@@ -110,7 +111,7 @@ const createServer = () => {
         spentAt,
         title,
         amount,
-        category,
+        categoryId,
         note,
       },
       { silent: true },
@@ -125,9 +126,14 @@ const createServer = () => {
   });
 
   app.post('/expenses', async (req, res) => {
-    const { userId, spentAt, title, amount, category, note } = req.body;
+    const { userId, spentAt, title, amount, categoryId, note } = req.body;
 
-    if (userId == null || title == null || amount == null || category == null) {
+    if (
+      userId == null ||
+      title == null ||
+      amount == null ||
+      categoryId == null
+    ) {
       return res.status(400).end();
     }
 
@@ -142,7 +148,7 @@ const createServer = () => {
       spentAt: spentAt ?? new Date(),
       title,
       amount,
-      category,
+      categoryId,
       note,
     });
 
